@@ -7,6 +7,12 @@
 #include <QMessageBox>
 #include <QString>
 #include <QIntValidator>
+#include<QPainter>
+#include<QtPrintSupport/QPrinter>
+#include<QtPrintSupport/QPrintDialog>
+#include "QFileDialog"
+#include "QTextStream"
+#include <QTextDocument>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->le_tel->setValidator(new QIntValidator(0, 99999999, this));
     //ui->lineEdit_tel_2->setValidator(new QIntValidator(0,99999999,this));
     ui->tab_client->setModel(C.afficher());
+    ui->tab_fidelite->setModel(F.afficher());
 }
 
 MainWindow::~MainWindow()
@@ -33,7 +40,8 @@ void MainWindow::on_pb_ajouter_clicked()
     int tel=ui->le_tel->text().toInt();
     //QString region=ui->le_region->text();
     QString region=ui->le_region->currentText();
-    Client C(cin,nom,prenom,tel,region);
+    QDate date_ajout=ui->date->date();
+    Client C(cin,nom,prenom,tel,region,date_ajout);
 
     bool test=C.ajouter();
     if (test)
@@ -81,8 +89,9 @@ void MainWindow::on_pushButton_update_clicked()
 
    //QString region=ui->lineEdit_region_2->text();
    QString region=ui->lineEdit_region_2->currentText();
+   QDate date_ajout=ui->dateEdit->date();
 
-    Client C1(cin,nom,prenom,tel,region);
+    Client C1(cin,nom,prenom,tel,region,date_ajout);
 
     bool test=C1.modifier();
     if(test)
@@ -159,6 +168,25 @@ void MainWindow::on_pushButton_trie_clicked()
                               QObject::tr("tri  failed.\n"
                                           "Click Cancel to exit."), QMessageBox::Cancel);
         }
+        if (choix=="date d'ajout")
+        {
+            ui->tab_client->setModel(C.trie_date_ajout());
+            ui->tab_client->setModel(C.afficher());
+            bool test=C.trie_date_ajout();
+            if (test)
+            {
+
+        ui->tab_client->setModel(C.trie_date_ajout());
+                QMessageBox::information(nullptr,QObject::tr("ok"),
+                                         QObject::tr("tri region effectué \n"
+                                                     "Click Cancel to exist ."),QMessageBox::Cancel);
+
+            }
+            else
+                  QMessageBox::critical(nullptr, QObject::tr("erreur"),
+                              QObject::tr("tri  failed.\n"
+                                          "Click Cancel to exit."), QMessageBox::Cancel);
+        }
 }
 
 void MainWindow::on_pb_ajouterf_clicked()
@@ -184,9 +212,9 @@ void MainWindow::on_pb_ajouterf_clicked()
         QMessageBox::critical(nullptr, QObject::tr("NOT OK"), QObject::tr("Ajout non effectué\n"
                                                                            "Click Cancel to exit"), QMessageBox::Cancel);
 }
-void MainWindow::on_supprimerf_clicked()
-{
-    Fidelite F1;F1.setcinf(ui->le_cin_suppf->text().toInt());
+
+    /*supprimer
+     * Fidelite F1;F1.setcinf(ui->le_cin_suppf->text().toInt());
         bool test=F1.supprimer(F1.getcinf());
                 QMessageBox msgBox;
         if(test){
@@ -196,13 +224,29 @@ void MainWindow::on_supprimerf_clicked()
 
         else
             msgBox.setText("Echec suppression,");
-        msgBox.exec();
-}
+        msgBox.exec();*/
 
 
-void MainWindow::on_pushButton_updatef_clicked()
-{
-    int cinf=ui->le_cinf_2->text().toInt();
+        /*Fidelite F;
+        int cinf =ui->le_cin_suppf->text().toInt();
+        bool test=F.supprimer(cinf);
+                QMessageBox msgBox;
+
+            if(test){
+                //actualiser pour l'affichage
+                ui->tab_fidelite->setModel(F.afficher());
+                     msgBox.setText("suppression reussite");
+                        ui->tab_fidelite->setModel(F.afficher());
+                    }
+                    else
+                        msgBox.setText("echec de suppression");
+                        msgBox.exec();*/
+
+
+
+
+    /* update
+     * int cinf=ui->le_cinf_2->text().toInt();
 
     QString nom=ui->le_nomf_2->text();
 
@@ -227,7 +271,125 @@ void MainWindow::on_pushButton_updatef_clicked()
     else
         QMessageBox::critical(nullptr, QObject::tr("database is open"),
                     QObject::tr("modification non effectué.\n"
-                                "Click Cancel to exit."), QMessageBox::Cancel);
+                                "Click Cancel to exit."), QMessageBox::Cancel);*/
+
+
+
+
+void MainWindow::on_tabWidget_tabBarClicked(int index)
+{
+    C.statistique(ui->widget);
 }
 
+void MainWindow::on_pushButton_PDF_clicked()
+{
+    QString strStream;
+                        QTextStream out(&strStream);
 
+                        const int rowCount = ui->tab_client->model()->rowCount();
+                        const int columnCount = ui->tab_client->model()->columnCount();
+                        out <<  "<html>\n"
+                                               "<head>\n"
+                                               "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+                                               <<  QString("<title>%1</title>\n").arg("strTitle")
+                                               <<  "</head>\n"
+                                               "<body bgcolor=#ffffff link=#5000A0>\n"
+
+                                              //     "<align='right'> " << datefich << "</align>"
+                                               "<center> <H1>Liste Des Clients </H1></br></br><table border=1 cellspacing=0 cellpadding=2>\n";
+
+                                           // headers
+                                           out << "<thead><tr bgcolor=#f0f0f0> <th>Numero</th>";
+                                           for (int column = 0; column < columnCount; column++)
+                                               if (!ui->tab_client->isColumnHidden(column))
+                                                   out << QString("<th>%1</th>").arg(ui->tab_client->model()->headerData(column, Qt::Horizontal).toString());
+                                           out << "</tr></thead>\n";
+
+                                           // data table
+                                           for (int row = 0; row < rowCount; row++) {
+                                               out << "<tr> <td bkcolor=0>" << row+1 <<"</td>";
+                                               for (int column = 0; column < columnCount; column++) {
+                                                   if (!ui->tab_client->isColumnHidden(column)) {
+                                                       QString data = ui->tab_client->model()->data(ui->tab_client->model()->index(row, column)).toString().simplified();
+                                                       out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+                                                   }
+                                               }
+                                               out << "</tr>\n";
+                                           }
+                                           out <<  "</table> </center>\n"
+                                               "</body>\n"
+                                               "</html>\n";
+      QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Sauvegarder en PDF", QString(), "*.pdf");
+                    if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+
+                   QPrinter printer (QPrinter::PrinterResolution);
+                    printer.setOutputFormat(QPrinter::PdfFormat);
+                   printer.setPaperSize(QPrinter::A4);
+                  printer.setOutputFileName(fileName);
+
+                   QTextDocument doc;
+                    doc.setHtml(strStream);
+                    doc.setPageSize(printer.pageRect().size());
+                    doc.print(&printer);
+}
+
+void MainWindow::on_pushButton_imprimer_clicked()
+{
+    QPrinter printer;
+
+    printer.setPrinterName("desiered printer name");
+
+  QPrintDialog dialog(&printer,this);
+
+    if(dialog.exec()== QDialog::Rejected)
+
+        return;
+}
+
+void MainWindow::on_supprimerf_clicked()
+{
+    Fidelite F;
+            int cinf =ui->le_cin_suppf->text().toInt();
+            bool test=F.supprimer(cinf);
+                    QMessageBox msgBox;
+
+                if(test){
+                    //actualiser pour l'affichage
+                    ui->tab_fidelite->setModel(F.afficher());
+                         msgBox.setText("suppression reussite");
+                            ui->tab_fidelite->setModel(F.afficher());
+                        }
+                        else
+                            msgBox.setText("echec de suppression");
+                            msgBox.exec();
+}
+
+void MainWindow::on_pushButton_updatef_clicked()
+{
+    int cinf=ui->le_cinf_2->text().toInt();
+
+        QString nom=ui->le_nomf_2->text();
+
+        QString prenom=ui->le_prenomf_2->text();
+
+        int tel=ui->le_telf_2->text().toInt();
+
+       QString region=ui->le_regionf_2->currentText();
+
+       int nb_commande=ui->le_nbcf_2->text().toInt();
+
+        Fidelite F1(cinf,nom,prenom,tel,region,nb_commande);
+
+        bool test=F1.modifier();
+        if(test)
+        {
+            //actualiser pour l'affichage
+            ui->tab_fidelite->setModel(F.afficher());
+                    QMessageBox::information(nullptr, QObject::tr("database is open"),
+                                QObject::tr("modification effectué.\n"
+                                            "Click Cancel to exit."), QMessageBox::Cancel);}
+        else
+            QMessageBox::critical(nullptr, QObject::tr("database is open"),
+                        QObject::tr("modification non effectué.\n"
+                                    "Click Cancel to exit."), QMessageBox::Cancel);
+}

@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <client.h>
-#include <fidelite.h>
+#include "client.h"
+#include "fidelite.h"
 
 namespace Ui {
 class MainWindow;
@@ -27,13 +27,21 @@ private slots:
     void on_pushButton_trie_clicked();
 
     void on_pb_ajouterf_clicked();
+
+
+
+
+
+
+    void on_tabWidget_tabBarClicked(int index);
+
+    void on_pushButton_PDF_clicked();
+
+    void on_pushButton_imprimer_clicked();
+
     void on_supprimerf_clicked();
 
     void on_pushButton_updatef_clicked();
-
-
-
-
 
 private:
     Ui::MainWindow *ui;

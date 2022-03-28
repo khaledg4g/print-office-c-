@@ -28,8 +28,8 @@ public:
 
     bool ajouter();
     QSqlQueryModel * afficher();
-    bool modifier();
     bool supprimer(int);
+    bool modifier();
     QSqlQueryModel * trie_nom();
     QSqlQueryModel * trie_cin();
     QSqlQueryModel * trie_region();

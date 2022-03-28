@@ -60,11 +60,21 @@ QSqlQueryModel *Fidelite::afficher()
     return model;
 }
 
+bool Fidelite::supprimer(int cinf)
+{
+    QSqlQuery query;
+      QString res =QString::number(cinf);
+    query.prepare(" Delete from fidelite where cinf=:cinf");
+    query.bindValue(":cinf", res);
+
+  return  query.exec();
+}
+
 bool Fidelite::modifier()
 {
 QSqlQuery query;
 QString res= QString::number(cinf);
-query.prepare("update Client set cinf= :cinf, nom= :nom, prenom= :prenom, tel= :tel, region= :region, nb_commande= :nb_commande where cin = :cin ");
+query.prepare("update fidelite set cinf= :cinf, nom= :nom, prenom= :prenom, tel= :tel, region= :region, nb_commande= :nb_commande where cinf = :cinf ");
 query.bindValue(":cinf", res);
 query.bindValue(":nom",nom);
 query.bindValue(":prenom",prenom );
@@ -74,12 +84,4 @@ query.bindValue(":nb_commande",nb_commande);
 return    query.exec();
 }
 
-bool Fidelite::supprimer(int cinf)
-{
-    QSqlQuery query;
-      QString res =QString::number(cinf);
-    query.prepare(" Delete from client where cinf=:cinf");
-    query.bindValue(":cinf", res);
 
-  return  query.exec();
-}

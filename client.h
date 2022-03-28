@@ -3,12 +3,16 @@
 #include <QString>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QFrame>
+#include <QtCharts/QtCharts>
+#include <QtCharts/QChartView>
+#include <QtCharts/QPieSeries>
 class Client
 {
 public:
     //constructeurs
     Client();
-    Client(int, QString, QString, int, QString);
+    Client(int, QString, QString, int, QString, QDate);
 
     //getters
     int getcin();
@@ -16,6 +20,7 @@ public:
     QString getprenom();
     int gettel();
     QString getregion();
+    QDate getdate_ajout();
 
     //setters
     void setcin(int);
@@ -23,6 +28,7 @@ public:
     void setprenom(QString);
     void settel(int n);
     void setregion(QString n);
+    void setdate_ajout(QDate d);
 
     bool ajouter();
     QSqlQueryModel * afficher();
@@ -31,9 +37,13 @@ public:
     QSqlQueryModel * trie_nom();
     QSqlQueryModel * trie_cin();
     QSqlQueryModel * trie_region();
+    QSqlQueryModel * trie_date_ajout();
+    void statistique(QWidget * w);
+    int notification();
 private:
     int cin, tel;
     QString nom, prenom, region;
+    QDate date_ajout;
 };
 
 #endif // CLIENT_H
