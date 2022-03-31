@@ -213,67 +213,6 @@ void MainWindow::on_pb_ajouterf_clicked()
                                                                            "Click Cancel to exit"), QMessageBox::Cancel);
 }
 
-    /*supprimer
-     * Fidelite F1;F1.setcinf(ui->le_cin_suppf->text().toInt());
-        bool test=F1.supprimer(F1.getcinf());
-                QMessageBox msgBox;
-        if(test){
-            msgBox.setText("suppression avec succes,");
-       ui->tab_fidelite->setModel(F1.afficher());
-    }
-
-        else
-            msgBox.setText("Echec suppression,");
-        msgBox.exec();*/
-
-
-        /*Fidelite F;
-        int cinf =ui->le_cin_suppf->text().toInt();
-        bool test=F.supprimer(cinf);
-                QMessageBox msgBox;
-
-            if(test){
-                //actualiser pour l'affichage
-                ui->tab_fidelite->setModel(F.afficher());
-                     msgBox.setText("suppression reussite");
-                        ui->tab_fidelite->setModel(F.afficher());
-                    }
-                    else
-                        msgBox.setText("echec de suppression");
-                        msgBox.exec();*/
-
-
-
-
-    /* update
-     * int cinf=ui->le_cinf_2->text().toInt();
-
-    QString nom=ui->le_nomf_2->text();
-
-    QString prenom=ui->le_prenomf_2->text();
-
-    int tel=ui->le_telf_2->text().toInt();
-
-   //QString region=ui->lineEdit_region_2->text();
-   QString region=ui->le_regionf_2->currentText();
-   int nb_commande=ui->le_nbcf_2->text().toInt();
-
-    Fidelite F1(cinf,nom,prenom,tel,region,nb_commande);
-
-    bool test=F1.modifier();
-    if(test)
-    {
-        //actualiser pour l'affichage
-        ui->tab_fidelite->setModel(F.afficher());
-                QMessageBox::information(nullptr, QObject::tr("database is open"),
-                            QObject::tr("modification effectué.\n"
-                                        "Click Cancel to exit."), QMessageBox::Cancel);}
-    else
-        QMessageBox::critical(nullptr, QObject::tr("database is open"),
-                    QObject::tr("modification non effectué.\n"
-                                "Click Cancel to exit."), QMessageBox::Cancel);*/
-
-
 
 
 void MainWindow::on_tabWidget_tabBarClicked(int index)

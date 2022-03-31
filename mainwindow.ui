@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>905</width>
-    <height>660</height>
+    <width>1140</width>
+    <height>693</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,12 +19,12 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>891</width>
+      <width>1061</width>
       <height>611</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>6</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -417,7 +417,7 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>861</width>
+        <width>991</width>
         <height>461</height>
        </rect>
       </property>
@@ -429,7 +429,7 @@
         <rect>
          <x>10</x>
          <y>20</y>
-         <width>841</width>
+         <width>951</width>
          <height>251</height>
         </rect>
        </property>
@@ -1307,7 +1307,7 @@ font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>905</width>
+     <width>1140</width>
      <height>26</height>
     </rect>
    </property>
