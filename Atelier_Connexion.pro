@@ -7,7 +7,13 @@
 QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
+QT += sql
+QT += printsupport
+QT += charts
+QT += multimediawidgets
+QT += multimedia
+QT += serialport
+CONFIG += consoles
 TARGET = Atelier_Connexion
 TEMPLATE = app
 
@@ -34,11 +40,13 @@ SOURCES += \
 HEADERS += \
     employe.h \
     historique.h \
-        mainwindow.h \
+       mainwindow.h \
     connection.h
 
 FORMS += \
         mainwindow.ui
+
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

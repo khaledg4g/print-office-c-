@@ -3,15 +3,22 @@
 #include<QtDebug>
 #include<QObject>
 #include<QString>
+#include<QSqlQueryModel>
+#include<QMessageBox>
+#include <QtCharts/QChartView>
+#include <QtCharts/QPieSeries>
+#include <QtCharts/QPieSlice>
+
 Employe::Employe()
 {
-id=0; nom=" "; prenom=" "; date_de_naissance=" ";
- fonction="";
+id=0; nom=" "; prenom=" ";fonction="";
+date_de_naissance=" ";
+
 }
-Employe::Employe(int id ,QString nom,QString prenom,QString date_de_naissance,QString fonction)
+Employe::Employe(int id ,QString nom,QString prenom,QString fonction,QString date_de_naissance)
 {
     this->id=id; this->nom=nom; this->prenom=prenom;
-    this->date_de_naissance=date_de_naissance; this->fonction=fonction;
+   this->fonction=fonction; this->date_de_naissance=date_de_naissance;
 
 
 }
@@ -21,20 +28,22 @@ QString Employe::getnom()
 {return nom;}
 QString Employe::getprenom()
 {return prenom;}
-QString Employe::getdate_de_naissance()
-{return date_de_naissance;}
 QString Employe::getfonction()
 {return fonction;}
+QString Employe::getdate_de_naissance()
+{return date_de_naissance;}
+
 void Employe::setid(int id)
 {this->id=id;}
 void Employe::setnom(QString nom)
 {this->nom=nom;}
 void Employe::setprenom(QString prenom)
 {this->prenom=prenom;}
-void Employe::setdate_de_naissance(QString date_de_naissance)
-{this->date_de_naissance=date_de_naissance;}
 void Employe::setfonction(QString fonction)
 {this->fonction=fonction;}
+void Employe::setdate_de_naissance(QString date_de_naissance)
+{this->date_de_naissance=date_de_naissance;}
+
 
 bool Employe::ajouter()
 {
@@ -68,9 +77,7 @@ QSqlQueryModel* Employe::afficher()
           model->setHeaderData(1, Qt::Horizontal, QObject::tr("nom"));
            model->setHeaderData(2, Qt::Horizontal, QObject::tr("prenom"));
            model->setHeaderData(3, Qt::Horizontal, QObject::tr("fonction"));
-
-
-            model->setHeaderData(4, Qt::Horizontal, QObject::tr("date_de_naissance"));
+           model->setHeaderData(4, Qt::Horizontal, QObject::tr("date_de_naissance"));
 
 return model;}
 
@@ -97,3 +104,152 @@ bool Employe::modifier(int id ,QString nom,QString prenom,QString fonction,QStri
      return query.exec();
 }
 
+//////tri age//////////
+
+QSqlQueryModel* Employe::triparAge()
+  {
+  QSqlQuery * q = new  QSqlQuery ();
+                   QSqlQueryModel * model = new  QSqlQueryModel ();
+                   q->prepare("SELECT * FROM EMPLOYE order by date_de_naissance ASC");
+                   q->exec();
+                   model->setQuery(*q);
+                   model->setHeaderData(0, Qt::Horizontal, QObject::tr("id"));
+                   model->setHeaderData(1, Qt::Horizontal, QObject::tr("nom"));
+                   model->setHeaderData(2, Qt::Horizontal, QObject::tr("prenom"));
+                   model->setHeaderData(3, Qt::Horizontal, QObject::tr("fonction"));
+                   model->setHeaderData(4, Qt::Horizontal, QObject::tr("date_de_naissance"));
+                   return model;
+
+
+  }
+
+////////////// recherche nom////////////////
+
+bool Employe::recherche(int x)
+{
+    QSqlQuery query;
+    query.prepare("SELECT * FROM Employe WHERE id=:id; ");
+    query.bindValue(":id",x);
+
+    return query.exec();
+}
+QSqlQueryModel * Employe::rech(QString a)
+{
+    QSqlQueryModel * model= new QSqlQueryModel();
+
+        model->setQuery("SELECT * FROM Employe WHERE id = '"+a+"'");
+        model->setHeaderData(0, Qt::Horizontal, QObject::tr("id"));
+        model->setHeaderData(1, Qt::Horizontal, QObject::tr("nom"));
+        model->setHeaderData(2, Qt::Horizontal, QObject::tr("prenom"));
+        model->setHeaderData(3, Qt::Horizontal, QObject::tr("fonction"));
+        model->setHeaderData(4, Qt::Horizontal, QObject::tr("date_de_naissance"));
+        return model;
+
+
+}
+bool Employe::recherchen(int x)
+{
+    QSqlQuery query;
+    query.prepare("SELECT * FROM Employe WHERE nom=:nom;");
+    query.bindValue(":nom",x);
+
+    return query.exec();
+}
+QSqlQueryModel * Employe::rechn(QString a)
+{
+    QSqlQueryModel * model= new QSqlQueryModel();
+
+        model->setQuery("SELECT * FROM Employe WHERE nom = '"+a+"'");
+        model->setHeaderData(0, Qt::Horizontal, QObject::tr("id"));
+        model->setHeaderData(1, Qt::Horizontal, QObject::tr("nom"));
+        model->setHeaderData(2, Qt::Horizontal, QObject::tr("prenom"));
+        model->setHeaderData(3, Qt::Horizontal, QObject::tr("fonction"));
+        model->setHeaderData(4, Qt::Horizontal, QObject::tr("date_de_naissance"));
+        return model;
+
+
+}
+bool Employe::recherchep(int x)
+{
+    QSqlQuery query;
+    query.prepare("SELECT * FROM Employe WHERE prenom=:prenom;");
+    query.bindValue(":prenom",x);
+
+    return query.exec();
+}
+QSqlQueryModel * Employe::rechp(QString a)
+{
+    QSqlQueryModel * model= new QSqlQueryModel();
+
+        model->setQuery("SELECT * FROM Employe WHERE prenom = '"+a+"'");
+        model->setHeaderData(0, Qt::Horizontal, QObject::tr("id"));
+        model->setHeaderData(1, Qt::Horizontal, QObject::tr("nom"));
+        model->setHeaderData(2, Qt::Horizontal, QObject::tr("prenom"));
+        model->setHeaderData(3, Qt::Horizontal, QObject::tr("fonction"));
+        model->setHeaderData(4, Qt::Horizontal, QObject::tr("date_de_naissance"));
+        return model;
+
+
+}
+
+
+
+    void Employe::statistique(QWidget * w)
+    {
+            int nbm = 0,nbsr=0,nbr =0,nb =0;
+
+                QSqlQuery query("SELECT COUNT(*) FROM Employe WHERE fonction='Technicien'");
+                while(query.next())
+                {
+                    nbm = query.value(0).toInt();
+                }
+                QSqlQuery query2("SELECT COUNT(*) FROM Employe WHERE fonction='Ingenieur'");
+                while(query2.next())
+                {
+                   nbsr= query2.value(0).toInt();
+                }
+                QSqlQuery query3("SELECT COUNT(*) FROM Employe WHERE fonction='PDG'");
+                while(query3.next())
+                {
+                   nbr= query3.value(0).toInt();
+                }
+                QSqlQuery query4("SELECT COUNT(*) FROM Employe WHERE fonction='Sec'");
+                while(query4.next())
+                {
+                   nb= query4.value(0).toInt();
+                }
+            QPieSeries *series = new QPieSeries();
+
+            series->append("Technicien",nbm);
+            series->append("Ingenieur",nbsr);
+    series->append("PDG",nbr);
+    series->append("Sec",nb);
+            series->setHoleSize(0.0);
+            series->setPieSize(1.0);
+            series->setPieSize(2.0);
+     series->setPieSize(3.0);
+            QPieSlice * M = series->slices().at(0);
+            QPieSlice * SR = series->slices().at(1);
+    QPieSlice * R = series->slices().at(2);
+    QPieSlice * n = series->slices().at(3);
+            M->setLabelVisible(true);
+            SR->setLabelVisible(true);
+    R->setLabelVisible(true);
+    n->setLabelVisible(true);
+            M->setBrush(QColor::fromRgb(85, 31, 31));
+            SR->setBrush(QColor::fromRgb(205, 0, 0));
+    R->setBrush(QColor::fromRgb(160, 205, 120));
+    n->setBrush(QColor::fromRgb(100, 100, 20));
+            QChart *chart = new QChart();
+            chart->addSeries(series);
+            chart->setTitle("statistique des employes par poste");
+            chart->legend()->setVisible(true);
+            chart->legend()->setAlignment(Qt::AlignBottom);
+            chart->setAnimationOptions(QChart::AllAnimations);
+
+            QChartView * chartview = new QChartView(chart);
+            chartview->resize(w->width(),w->height());
+            chartview->setParent(w);
+
+
+    }
