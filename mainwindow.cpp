@@ -292,8 +292,8 @@ void MainWindow::on_CSV_clicked()
     QTableView *table= new QTableView;
                                    table = ui->tab_e;
 
-                                   QString filters("PDF files (.pdf);;All files (.*)");
-                                   QString defaultFilter("PDF files (*.pdf)");
+                                   QString filters("CSV files (.csv);;All files (.*)");
+                                   QString defaultFilter("CSV files (*.csv)");
                                    QString fileName = QFileDialog::getSaveFileName(0, "Save file", QCoreApplication::applicationDirPath(),
                                                       filters, &defaultFilter);
                                    QFile file(fileName);
