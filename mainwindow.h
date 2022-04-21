@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include<employe.h>
 #include<historique.h>
+#include<arduino.h>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -43,10 +44,15 @@ private slots:
    void on_tabWidget_tabBarClicked(int index);
 
    void on_CSV_clicked();
+   void update_label();
+
 
 private:
     Ui::MainWindow *ui;
     Employe E;
     historique h;
+    QByteArray data; // variable contenant les données reçues
+
+        Arduino A; // objet temporaire
 };
 #endif // MAINWINDOW_H

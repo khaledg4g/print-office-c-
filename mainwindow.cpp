@@ -14,12 +14,31 @@
 #include <QTextDocument>
 #include <QMessageBox>
 #include "QFileDialog"
+#include <QTextDocument>
+#include <QPixmap>
+#include <QSerialPort>
+#include <QSerialPortInfo>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    int ret=A.connect_arduino(); // lancer la connexion à arduino
+        switch(ret){
+        case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
+            break;
+        case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
+           break;
+        case(-1):qDebug() << "arduino is not available";
+        }
+         QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label())); // permet de lancer
+         //le slot update_label suite à la reception du signal readyRead (reception des données).
+
+      QPixmap pix("C:/Users/emnaa/OneDrive/Bureau/logo.png");
+        ui->image->setPixmap(pix);
+        ui->image_2->setPixmap(pix);
+
     ui->le_id->setValidator(new QIntValidator(0, 9999999, this));
     ui->le_id_2->setValidator(new QIntValidator(0, 9999999, this));
 
@@ -31,6 +50,21 @@ ui->tab_e_2->setModel(h.afficher());
 MainWindow::~MainWindow()
 {
     delete ui;
+
+}
+void MainWindow::update_label()
+{
+    data=A.read_from_arduino();
+    ui->temp_lcdNumber->setText(data);
+   QString dataString = data ;
+   QSqlQuery query;
+           query.prepare ("INSERT INTO temperature (data)"
+                          "VALUES ('"+dataString+"')");
+           query.exec();
+
+
+
+
 }
 
 

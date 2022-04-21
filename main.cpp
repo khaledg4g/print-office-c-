@@ -7,6 +7,12 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    //set the app style sheet
+        QFile styleSheetFile("C:/Users/emnaa/OneDrive/Bureau/Atelier_Connexion/Chatbee.qss");
+        styleSheetFile.open(QFile::ReadOnly);
+        QString styleSheet = QLatin1String(styleSheetFile.readAll());
+        a.setStyleSheet(styleSheet);
+
     Connection c;
     bool test=c.createconnect();
     MainWindow w;
