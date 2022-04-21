@@ -4,13 +4,13 @@
 #
 #-------------------------------------------------
 
-QT       += core gui sql
+QT       += core gui sql serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 QT += sql
 QT += printsupport
 QT += charts
-
+QT += serialport
 TARGET = Atelier_Connexion
 TEMPLATE = app
 
@@ -28,6 +28,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    arduino.cpp \
     client.cpp \
     fidelite.cpp \
         main.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
     connection.cpp
 
 HEADERS += \
+    arduino.h \
     client.h \
     fidelite.h \
         mainwindow.h \

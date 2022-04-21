@@ -145,49 +145,50 @@ QSqlQueryModel * Client::trie_date_ajout()
 
 void Client::statistique(QWidget * w)
 {
-        int nbm = 0,nbsr=0,nbr =0,nb =0;
+        int tun=0,sfx=0,sous=0,nbl=0;
             QSqlQuery query("SELECT COUNT(*) FROM client WHERE region='tunis'");
             while(query.next())
             {
-                nbm = query.value(0).toInt();
+                tun = query.value(0).toInt();
             }
             QSqlQuery query2("SELECT COUNT(*) FROM client WHERE region='sfax'");
             while(query2.next())
             {
-               nbsr= query2.value(0).toInt();
+               sfx= query2.value(0).toInt();
             }
             QSqlQuery query3("SELECT COUNT(*) FROM client WHERE region='sousse'");
             while(query3.next())
             {
-               nbr= query3.value(0).toInt();
+               sous= query3.value(0).toInt();
             }
             QSqlQuery query4("SELECT COUNT(*) FROM client WHERE region='nabeul'");
             while(query4.next())
             {
-               nb= query4.value(0).toInt();
+               nbl= query4.value(0).toInt();
             }
         QPieSeries *series = new QPieSeries();
 
-        series->append("tunis",nbm);
-        series->append("sfax",nbsr);
-        series->append("sousse",nbr);
-        series->append("nabeul",nb);
-        series->setHoleSize(0.0);
+        series->append("tunis",tun);
+        series->append("sfax",sfx);
+        series->append("sousse",sous);
+        series->append("nabeul",nbl);
+        series->setHoleSize(0.6);
         series->setPieSize(1.0);
         series->setPieSize(2.0);
         series->setPieSize(3.0);
-        QPieSlice * M = series->slices().at(0);
-        QPieSlice * SR = series->slices().at(1);
-        QPieSlice * R = series->slices().at(2);
-        QPieSlice * n = series->slices().at(3);
-        M->setLabelVisible(true);
-        SR->setLabelVisible(true);
-        R->setLabelVisible(true);
-        n->setLabelVisible(true);
-        M->setBrush(QColor::fromRgb(255, 125, 127));
-        SR->setBrush(QColor::fromRgb(100, 0, 100));
-        R->setBrush(QColor::fromRgb(160, 205, 120));
-        n->setBrush(QColor::fromRgb(240, 100, 20));
+        series->setPieSize(4.0);
+        QPieSlice * TN = series->slices().at(0);
+        QPieSlice * SF = series->slices().at(1);
+        QPieSlice * SO = series->slices().at(2);
+        QPieSlice * NB = series->slices().at(3);
+        TN->setLabelVisible(true);
+        SF->setLabelVisible(true);
+        SO->setLabelVisible(true);
+        NB->setLabelVisible(true);
+        TN->setBrush(QColor::fromRgb(255, 125, 127));
+        SF->setBrush(QColor::fromRgb(100, 0, 100));
+        SO->setBrush(QColor::fromRgb(160, 205, 120));
+        NB->setBrush(QColor::fromRgb(240, 100, 20));
         QChart *chart = new QChart();
         chart->addSeries(series);
         chart->setTitle("Statistiques des clients par region");
@@ -217,3 +218,10 @@ int Client::notification()
     }
     return i;
 }
+
+
+
+
+
+
+

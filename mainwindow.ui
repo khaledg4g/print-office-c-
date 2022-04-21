@@ -19,12 +19,12 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1061</width>
-      <height>611</height>
+      <width>1121</width>
+      <height>601</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>7</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -405,7 +405,34 @@
          <string>Nombre de commande</string>
         </property>
        </widget>
+       <widget class="QLabel" name="image">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>310</y>
+          <width>411</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </widget>
+      <zorder>groupBox_10</zorder>
+      <zorder>le_cin</zorder>
+      <zorder>le_nom</zorder>
+      <zorder>le_prenom</zorder>
+      <zorder>label</zorder>
+      <zorder>label_2</zorder>
+      <zorder>label_3</zorder>
+      <zorder>pb_ajouter</zorder>
+      <zorder>le_tel</zorder>
+      <zorder>label_4</zorder>
+      <zorder>label_6</zorder>
+      <zorder>le_region</zorder>
+      <zorder>date</zorder>
+      <zorder>label_5</zorder>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
@@ -503,7 +530,7 @@
        <property name="geometry">
         <rect>
          <x>450</x>
-         <y>370</y>
+         <y>360</y>
          <width>141</width>
          <height>41</height>
         </rect>
@@ -512,9 +539,28 @@
         <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
        </property>
        <property name="text">
-        <string> PDF</string>
+        <string>PDF</string>
        </property>
       </widget>
+      <widget class="QLabel" name="image_2">
+       <property name="geometry">
+        <rect>
+         <x>610</x>
+         <y>280</y>
+         <width>361</width>
+         <height>141</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <zorder>pushButton_imprimer</zorder>
+      <zorder>pushButton_trie</zorder>
+      <zorder>comboBox_trid</zorder>
+      <zorder>pushButton_PDF</zorder>
+      <zorder>tab_client</zorder>
+      <zorder>image_2</zorder>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_4">
@@ -526,7 +572,7 @@
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>801</width>
+        <width>701</width>
         <height>531</height>
        </rect>
       </property>
@@ -632,7 +678,7 @@ color: rgb(0, 0, 0);
         <rect>
          <x>370</x>
          <y>50</y>
-         <width>391</width>
+         <width>291</width>
          <height>451</height>
         </rect>
        </property>
@@ -778,6 +824,33 @@ font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
         <string>Date d'ajout</string>
        </property>
       </widget>
+      <zorder>label_7</zorder>
+      <zorder>lineEdit_cin_2</zorder>
+      <zorder>label_8</zorder>
+      <zorder>label_9</zorder>
+      <zorder>lineEdit_nom_2</zorder>
+      <zorder>lineEdit_prenom_2</zorder>
+      <zorder>pushButton_update</zorder>
+      <zorder>lineEdit_tel_2</zorder>
+      <zorder>label_10</zorder>
+      <zorder>label_11</zorder>
+      <zorder>lineEdit_region_2</zorder>
+      <zorder>dateEdit</zorder>
+      <zorder>label_32</zorder>
+      <zorder>groupBox_5</zorder>
+     </widget>
+     <widget class="QLabel" name="image_3">
+      <property name="geometry">
+       <rect>
+        <x>730</x>
+        <y>20</y>
+        <width>371</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_3">
@@ -787,11 +860,24 @@ font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
      <widget class="QWidget" name="widget" native="true">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>10</y>
-        <width>841</width>
-        <height>541</height>
+        <x>50</x>
+        <y>30</y>
+        <width>741</width>
+        <height>431</height>
        </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="image_4">
+      <property name="geometry">
+       <rect>
+        <x>780</x>
+        <y>180</y>
+        <width>321</width>
+        <height>151</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>
@@ -1032,6 +1118,22 @@ font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
         <string>Imprimer</string>
        </property>
       </widget>
+      <widget class="QLabel" name="image_5">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>280</y>
+         <width>321</width>
+         <height>151</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <zorder>pushButton_imprimer_2</zorder>
+      <zorder>tab_fidelite</zorder>
+      <zorder>image_5</zorder>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_7">
@@ -1199,6 +1301,19 @@ font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
          <string>Supprimer client</string>
         </property>
        </widget>
+       <widget class="QLabel" name="image_6">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>280</y>
+          <width>321</width>
+          <height>151</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
       </widget>
       <widget class="QLineEdit" name="le_telf_2">
        <property name="geometry">
@@ -1298,7 +1413,67 @@ font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
         <string/>
        </property>
       </widget>
+      <zorder>label_18</zorder>
+      <zorder>le_cinf_2</zorder>
+      <zorder>label_19</zorder>
+      <zorder>label_20</zorder>
+      <zorder>le_nomf_2</zorder>
+      <zorder>le_prenomf_2</zorder>
+      <zorder>pushButton_updatef</zorder>
+      <zorder>le_telf_2</zorder>
+      <zorder>label_22</zorder>
+      <zorder>label_23</zorder>
+      <zorder>le_regionf_2</zorder>
+      <zorder>label_25</zorder>
+      <zorder>le_nbcf_2</zorder>
+      <zorder>groupBox_9</zorder>
      </widget>
+    </widget>
+    <widget class="QWidget" name="tab_8">
+     <attribute name="title">
+      <string>arduino</string>
+     </attribute>
+     <widget class="QLabel" name="label_33">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>80</y>
+        <width>241</width>
+        <height>89</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; font-weight:600; color:#ff0000;&quot;&gt;Temperature&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>861</width>
+        <height>481</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>GroupBox</string>
+      </property>
+      <widget class="QLabel" name="temp_lcdNumber">
+       <property name="geometry">
+        <rect>
+         <x>340</x>
+         <y>40</y>
+         <width>351</width>
+         <height>161</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </widget>
+     <zorder>groupBox_2</zorder>
+     <zorder>label_33</zorder>
     </widget>
    </widget>
   </widget>

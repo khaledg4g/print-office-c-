@@ -13,12 +13,32 @@
 #include "QFileDialog"
 #include "QTextStream"
 #include <QTextDocument>
+#include <QSerialPort>
+#include <QSerialPortInfo>
+#include <QLCDNumber>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    int ret=A.connect_arduino(); // lancer la connexion à arduino
+    switch(ret){
+    case(0):qDebug()<< "arduino is available and connected to : "<< A.getarduino_port_name();
+        break;
+    case(1):qDebug() << "arduino is available but not connected to :" <<A.getarduino_port_name();
+       break;
+    case(-1):qDebug() << "arduino is not available";
+    }
+     QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label())); // permet de lancer
+     //le slot update_label suite à la reception du signal readyRead (reception des données).
+    QPixmap pix("C:/Users/rania/OneDrive/Bureau/logo.png");
+    ui->image->setPixmap(pix);
+    ui->image_2->setPixmap(pix);
+    ui->image_3->setPixmap(pix);
+    ui->image_4->setPixmap(pix);
+    ui->image_5->setPixmap(pix);
+    ui->image_6->setPixmap(pix);
     ui->le_cin->setValidator(new QIntValidator(0, 99999999, this));
     ui->le_cin_supp->setValidator(new QIntValidator(0,99999999,this));
     //ui->le_tel->setValidator(new QIntValidator(0, 99999999, this));
@@ -31,7 +51,26 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+void MainWindow::update_label()
+{
+    data=A.read_from_arduino();
+    ui->temp_lcdNumber->setText(data);
+   QString dataString = data;
 
+    QSqlQuery query;
+    query.prepare ("INSERT INTO temperature (data) "
+                   "VALUES ('"+dataString+"')");
+    query.exec();
+
+
+          //  ui->lcd->setText("ON"); // si les données reçues de arduino via la liaison série sont égales à 1
+    // alors afficher ON
+ //ui->lcd->display(sensor_reading);
+    //int  dat = data.toInt();
+    //ui->lcd->setNum(dat);
+
+     //  update the value displayed on the lcdNumber
+}
 void MainWindow::on_pb_ajouter_clicked()
 {
     int cin=ui->le_cin->text().toInt();
@@ -153,7 +192,7 @@ void MainWindow::on_pushButton_trie_clicked()
         {
             ui->tab_client->setModel(C.trie_cin());
             ui->tab_client->setModel(C.afficher());
-            bool test=C.trie_cin();//tri produit
+            bool test=C.trie_cin();
             if (test)
             {
 
@@ -220,57 +259,6 @@ void MainWindow::on_tabWidget_tabBarClicked(int index)
     C.statistique(ui->widget);
 }
 
-void MainWindow::on_pushButton_PDF_clicked()
-{
-    QString strStream;
-                        QTextStream out(&strStream);
-
-                        const int rowCount = ui->tab_client->model()->rowCount();
-                        const int columnCount = ui->tab_client->model()->columnCount();
-                        out <<  "<html>\n"
-                                               "<head>\n"
-                                               "<meta Content=\"Text/html; charset=Windows-1251\">\n"
-                                               <<  QString("<title>%1</title>\n").arg("strTitle")
-                                               <<  "</head>\n"
-                                               "<body bgcolor=#ffffff link=#5000A0>\n"
-
-                                              //     "<align='right'> " << datefich << "</align>"
-                                               "<center> <H1>Liste Des Clients </H1></br></br><table border=1 cellspacing=0 cellpadding=2>\n";
-
-                                           // headers
-                                           out << "<thead><tr bgcolor=#f0f0f0> <th>Numero</th>";
-                                           for (int column = 0; column < columnCount; column++)
-                                               if (!ui->tab_client->isColumnHidden(column))
-                                                   out << QString("<th>%1</th>").arg(ui->tab_client->model()->headerData(column, Qt::Horizontal).toString());
-                                           out << "</tr></thead>\n";
-
-                                           // data table
-                                           for (int row = 0; row < rowCount; row++) {
-                                               out << "<tr> <td bkcolor=0>" << row+1 <<"</td>";
-                                               for (int column = 0; column < columnCount; column++) {
-                                                   if (!ui->tab_client->isColumnHidden(column)) {
-                                                       QString data = ui->tab_client->model()->data(ui->tab_client->model()->index(row, column)).toString().simplified();
-                                                       out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
-                                                   }
-                                               }
-                                               out << "</tr>\n";
-                                           }
-                                           out <<  "</table> </center>\n"
-                                               "</body>\n"
-                                               "</html>\n";
-      QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Sauvegarder en PDF", QString(), "*.pdf");
-                    if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
-
-                   QPrinter printer (QPrinter::PrinterResolution);
-                    printer.setOutputFormat(QPrinter::PdfFormat);
-                   printer.setPaperSize(QPrinter::A4);
-                  printer.setOutputFileName(fileName);
-
-                   QTextDocument doc;
-                    doc.setHtml(strStream);
-                    doc.setPageSize(printer.pageRect().size());
-                    doc.print(&printer);
-}
 
 void MainWindow::on_pushButton_imprimer_clicked()
 {
@@ -331,4 +319,56 @@ void MainWindow::on_pushButton_updatef_clicked()
             QMessageBox::critical(nullptr, QObject::tr("database is open"),
                         QObject::tr("modification non effectué.\n"
                                     "Click Cancel to exit."), QMessageBox::Cancel);
+}
+
+void MainWindow::on_pushButton_PDF_clicked()
+{
+    QString strStream;
+                        QTextStream out(&strStream);
+
+                        const int rowCount = ui->tab_client->model()->rowCount();
+                        const int columnCount = ui->tab_client->model()->columnCount();
+                        out <<  "<html>\n"
+                                               "<head>\n"
+                                               "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+                                               <<  QString("<title>%1</title>\n").arg("strTitle")
+                                               <<  "</head>\n"
+                                               "<body bgcolor=#ffffff link=#5000A0>\n"
+
+                                              //     "<align='right'> " << datefich << "</align>"
+                                               "<center> <H1>Liste des clients</H1></br></br><table border=1 cellspacing=0 cellpadding=2>\n";
+
+                                           // headers
+                                           out << "<thead><tr bgcolor=#f0f0f0> <th>Numero</th>";
+                                           for (int column = 0; column < columnCount; column++)
+                                               if (!ui->tab_client->isColumnHidden(column))
+                                                   out << QString("<th>%1</th>").arg(ui->tab_client->model()->headerData(column, Qt::Horizontal).toString());
+                                           out << "</tr></thead>\n";
+
+                                           // data table
+                                           for (int row = 0; row < rowCount; row++) {
+                                               out << "<tr> <td bkcolor=0>" << row+1 <<"</td>";
+                                               for (int column = 0; column < columnCount; column++) {
+                                                   if (!ui->tab_client->isColumnHidden(column)) {
+                                                       QString data = ui->tab_client->model()->data(ui->tab_client->model()->index(row, column)).toString().simplified();
+                                                       out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+                                                   }
+                                               }
+                                               out << "</tr>\n";
+                                           }
+                                           out <<  "</table> </center>\n"
+                                               "</body>\n"
+                                               "</html>\n";
+      QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Sauvegarder en PDF", QString(), "*.pdf");
+                    if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+
+                   QPrinter printer (QPrinter::PrinterResolution);
+                    printer.setOutputFormat(QPrinter::PdfFormat);
+                   printer.setPaperSize(QPrinter::A4);
+                  printer.setOutputFileName(fileName);
+
+                   QTextDocument doc;
+                    doc.setHtml(strStream);
+                    doc.setPageSize(printer.pageRect().size());
+                    doc.print(&printer);
 }
