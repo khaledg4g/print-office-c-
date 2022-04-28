@@ -84,14 +84,3 @@ int Arduino::write_to_arduino( QByteArray d)
 
 }
 
-
-bool Arduino::ajouter()
-{
-
-    QSqlQuery query;
-    //QString data_string= QString::number (data) ;
-    query.prepare ("INSERT INTO temperature (data) "
-                   "VALUES (:data)");
-    query.bindValue(0,data);
-    return query.exec () ;
-}

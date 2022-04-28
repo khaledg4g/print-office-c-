@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
      QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label())); // permet de lancer
      //le slot update_label suite à la reception du signal readyRead (reception des données).
-    QPixmap pix("C:/Users/rania/OneDrive/Bureau/logo.png");
+    QPixmap pix("C:/Users/Asus/Pictures/Saved Pictures/integration/logo.png");
     ui->image->setPixmap(pix);
     ui->image_2->setPixmap(pix);
     ui->image_3->setPixmap(pix);
@@ -62,14 +62,6 @@ void MainWindow::update_label()
                    "VALUES ('"+dataString+"')");
     query.exec();
 
-
-          //  ui->lcd->setText("ON"); // si les données reçues de arduino via la liaison série sont égales à 1
-    // alors afficher ON
- //ui->lcd->display(sensor_reading);
-    //int  dat = data.toInt();
-    //ui->lcd->setNum(dat);
-
-     //  update the value displayed on the lcdNumber
 }
 void MainWindow::on_pb_ajouter_clicked()
 {

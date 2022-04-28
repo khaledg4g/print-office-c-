@@ -47,6 +47,7 @@ private:
     QByteArray data; // variable contenant les données reçues
 
     Arduino A; // objet temporaire
+
 };
 
 #endif // MAINWINDOW_H

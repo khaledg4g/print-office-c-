@@ -30,22 +30,55 @@ CONFIG += c++11
 SOURCES += \
     arduino.cpp \
     client.cpp \
+    commande.cpp \
+    dialog.cpp \
+    employe.cpp \
     fidelite.cpp \
+    fournisseur.cpp \
+    historique.cpp \
+    login.cpp \
+    mail.cpp \
         main.cpp \
         mainwindow.cpp \
-    connection.cpp
+    connection.cpp \
+    mainwindowc.cpp \
+    mainwindowe.cpp \
+    mainwindowf.cpp \
+    mainwindowp.cpp \
+    produit.cpp
 
 HEADERS += \
     arduino.h \
     client.h \
+    commande.h \
+    dialog.h \
+    employe.h \
     fidelite.h \
+    fournisseur.h \
+    historique.h \
+    login.h \
+    mail.h \
         mainwindow.h \
-    connection.h
+    connection.h \
+    mainwindowc.h \
+    mainwindowe.h \
+    mainwindowf.h \
+    mainwindowp.h \
+    produit.h
 
 FORMS += \
-        mainwindow.ui
+        dialog.ui \
+        login.ui \
+        mainwindow.ui \
+        mainwindowc.ui \
+        mainwindowe.ui \
+        mainwindowf.ui \
+        mainwindowp.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resource.qrc
